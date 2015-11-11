@@ -1,0 +1,32 @@
+#include <opencv\cv.h>
+#include <opencv\highgui.h>
+//#include "cxcore.h" 
+//#include <highgui.h>
+#include <opencv2/nonfree/features2d.hpp>
+using namespace cv;
+
+int main()
+{
+	Mat img_src, img_blur, img_gray, img_equalized, img_edge_detected, img_threshold, img_closed;
+	//Load original image
+	img_src = imread("brain tumor.jpg");
+
+
+	// vector of keypoints
+	std::vector<cv::KeyPoint> keypoints;
+	// Construct the SURF feature detector object
+	SurfFeatureDetector surf(
+		2500.); // threshold
+	// Detect the SURF features
+	surf.detect(img_src, keypoints);
+	// Draw the keypoints with scale and orientation information
+	cv::drawKeypoints(img_src, // original image
+		keypoints, // vector of keypoints
+		img_closed, // the resulting image
+		cv::Scalar(255, 255, 255), // color of the points
+		cv::DrawMatchesFlags::DRAW_RICH_KEYPOINTS); //flag
+
+	imshow("Result", img_closed);
+	waitKey(0);
+	return 0;
+}
